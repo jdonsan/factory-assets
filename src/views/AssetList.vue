@@ -6,7 +6,7 @@
         v-for="asset in assets" 
         :key="asset.id"
         :title="asset.name"
-        :detail="asset.currency"
+        :detail="'Divisa: ' + asset.currency"
         :tag="asset.risk_family"
         :navigation="'assets/' + asset.id"
       />

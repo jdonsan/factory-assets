@@ -2,8 +2,9 @@
   <li class="app-list-item">
     <router-link :to="navigation">
       <div class="app-list-item-content">
-        <p>{{ tag }}</p>
-        <h3><small>{{ detail }} - </small>{{ title }}</h3>
+        <app-tag :value="tag" />
+        <h3>{{ title }}</h3>
+        <p>{{ detail }}</p>
       </div>
       <i class="material-icons">keyboard_arrow_right</i>
     </router-link>
@@ -11,9 +12,15 @@
 </template>
 
 <script>
+import AppTag from '@/components/AppTag'
+
 export default {
   name: "AppListItem",
 
+  components: {
+    AppTag
+  },
+  
   props: {
     title: {
       type: String,
