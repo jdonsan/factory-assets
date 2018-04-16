@@ -3,8 +3,7 @@
     <router-link :to="navigation">
       <div class="app-list-item-content">
         <p>{{ tag }}</p>
-        <h3>{{ title }}</h3>
-        <p>{{ detail }}</p>
+        <h3><small>{{ detail }} - </small>{{ title }}</h3>
       </div>
       <i class="material-icons">keyboard_arrow_right</i>
     </router-link>
@@ -58,21 +57,25 @@ export default {
     }
   }
 
-  h3,
-  p {
-    margin: 0;
-    padding: 0;
-  }
-}
+  .app-list-item-content {
+    flex: 1;
+    min-width: 0;
 
-.app-list-item-content {
-  flex: 1;
-  min-width: 0; 
-  
-  h3 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    h3,
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    h3 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    p, small {
+      color: darken($color-basic-ligth-2, 20%);
+    }
   }
 }
 </style>
