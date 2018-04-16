@@ -1,20 +1,20 @@
 <template>
-  <div class="app-container">
+  <main class="app-container">
       <slot></slot>
-  </div>
+  </main>
 </template>
 
 <script>
 export default {
-    name: 'AppContainer'
-}
+  name: "AppContainer"
+};
 </script>
 
 <style lang="scss" scoped>
 .app-container {
-    max-width: 1024px;
-    margin: 0 auto;
-    padding: 0.5rem;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 4rem 0.5rem;
 }
 </style>
 

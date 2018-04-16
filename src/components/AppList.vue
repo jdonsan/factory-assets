@@ -15,7 +15,9 @@ export default {
 
 .app-list {
   list-style: none;
-  border: 0;
+  margin: 0;
+  padding: 0;
   background: $color-basic-ligth-1;
+  border-radius: 5px;
 }
 </style>

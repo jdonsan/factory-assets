@@ -1,5 +1,6 @@
 <template>
   <div class="view-asset-list">
+    <app-title>Activos</app-title>
     <app-list>
       <app-list-item 
         v-for="asset in assets" 
@@ -16,6 +17,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { ASSET_ACTIONS } from '@/store'
+import AppTitle from '@/components/AppTitle'
 import AppList from '@/components/AppList'
 import AppListItem from '@/components/AppListItem'
 
@@ -23,6 +25,7 @@ export default {
   name: 'AssetList',
 
   components: {
+    AppTitle,
     AppList,
     AppListItem
   },
