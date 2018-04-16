@@ -1,6 +1,14 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="view-asset-list">
+    <ul class="app-list">
+      <li class="app-list-item" v-for="asset in assets" :key="asset.id">
+        <router-link :to="'assets/' + asset.id">
+          <h3>{{ asset.name }}</h3>
+          <p>{{ asset.currency }}</p>
+          <p>{{ asset.risk_family }}</p>
+        </router-link>
+      </li>
+    </ul>
   </div>
 </template>
 
