@@ -31,7 +31,7 @@ export default new Vuex.Store({
     [ASSET_MUTATIONS.SET_ASSETS](state, assets) {
       state.assetsKeyMap = assets.reduce((keyMap, asset) => {
         keyMap[asset.id] = asset
-        return asset
+        return keyMap
       }, {})
     },
 
@@ -48,7 +48,6 @@ export default new Vuex.Store({
       } catch (error) {
         commit(ASSET_MUTATIONS.SET_ERROR, 'No ha sido posible obtener los activos')
       }
-
     }
   }
 })
