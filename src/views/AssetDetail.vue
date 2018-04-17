@@ -18,25 +18,27 @@
         </app-card-content>
       </app-card>
 
-      <app-title>Comentarios ({{ asset.comments.length }})</app-title>
+      <app-title v-if="asset">Comentarios ({{ asset.comments.length }})</app-title>
       <app-card v-if="asset">
         <app-card-content v-if="asset.comments">
           <app-card-item 
             v-for="(comment, index) in asset.comments" 
             :key="index"
             :description="comment.text" 
-            :value="comment.date | date" 
+            :value="comment.date | date"
+            :actions="commentActions" 
           />
           <form-comment @comment="(comment) => addComment({ assetId: asset.id, comment })" />
         </app-card-content>
       </app-card>
+
     </app-loader>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import { mapActions, mapMutations } from 'vuex'
-import  moment from 'moment'
 import { ASSET_ACTIONS, ASSET_MUTATIONS } from '@/store'
 import AppLoader from '@/components/AppLoader'
 import AppTitle from '@/components/AppTitle'
@@ -67,6 +69,18 @@ export default {
     id: {
       type: String,
       required: true
+    }
+  },
+
+  data() {
+    return {
+      commentActions: [{
+        icon: 'mode_edit',
+        method: () => this[ASSET_MUTATIONS.EDIT_COMMENT]()
+      }, {
+        icon: 'delete',
+        method: () => this[ASSET_MUTATIONS.DELETE_COMMENT]()
+      }]
     }
   },
 
@@ -105,7 +119,7 @@ export default {
   methods: {
     ...mapActions([ASSET_ACTIONS.FETCH_ASSETS]),
 
-    ...mapMutations([ASSET_MUTATIONS.ADD_COMMENT]),
+    ...mapMutations([ASSET_MUTATIONS.ADD_COMMENT, ASSET_MUTATIONS.DELETE_COMMENT, ASSET_MUTATIONS.EDIT_COMMENT]),
 
     formatLevel(object, key, level) {
       if (object[key + level]) {

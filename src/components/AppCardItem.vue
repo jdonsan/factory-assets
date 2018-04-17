@@ -1,7 +1,14 @@
 <template>
   <div class="app-card-item">
     <span class="app-card-item-key">{{ description }}</span>
-    <span class="app-card-item-value">{{ value }}</span>
+    <div class="app-card-item-detail">
+      <span class="app-card-item-value">{{ value }}</span>
+      <ul class="app-card-item-actions" v-if="actions">
+        <li v-for="(action, index) in actions" :key="index" @click="action.method">
+          <i class="material-icons">{{ action.icon }}</i>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -18,6 +25,11 @@ export default {
     value: {
       type: String | Object,
       required: true
+    },
+
+    actions: {
+      type: Array,
+      required: false
     }
   }
 }
@@ -45,6 +57,33 @@ export default {
   &-value {
     color: lighten($color-basic-dark, 30%);
     margin: 0.3rem 0;
+  }
+
+  &-actions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      color: lighten($color-basic-dark, 30%);
+      display: inline-block;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    @media (min-width: $bp-tablets) {
+      margin: 0 1rem;
+    }
+  }
+
+  &-detail {
+    @media (min-width: $bp-tablets) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 }
 </style>

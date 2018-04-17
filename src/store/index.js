@@ -14,7 +14,9 @@ export const ASSET_MUTATIONS = {
   SET_ERROR: 'setError',
   SET_ASSETS: 'setAssets',
   CHANGE_LOADING: 'changeLoading',
-  ADD_COMMENT: 'addComment'
+  ADD_COMMENT: 'addComment',
+  DELETE_COMMENT: 'deleteComment',
+  EDIT_COMMENT: 'editComment'
 }
 
 export default new Vuex.Store({
