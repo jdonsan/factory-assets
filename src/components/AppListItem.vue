@@ -28,12 +28,12 @@ export default {
     },
 
     detail: {
-      type: String,
+      type: String|Object,
       required: true
     },
 
     tag: {
-      type: String,
+      type: String|Object,
       required: true
     },
 
