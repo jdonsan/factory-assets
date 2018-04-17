@@ -29,8 +29,12 @@ export default {
 .app-card-item {
   display: flex;
   justify-content: space-between;
-  padding: 1rem 0;
+  padding: 1rem;
   border-bottom: 1px solid $color-basic-ligth-2;
+
+  &-value {
+    text-align: right;
+  }
 }
 </style>
 
