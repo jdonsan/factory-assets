@@ -26,7 +26,7 @@
             :key="index"
             :description="comment.text" 
             :value="comment.date | date"
-            :actions="commentActions" 
+            :actions="getActions(asset.id, index)" 
           />
           <form-comment @comment="(comment) => addComment({ assetId: asset.id, comment })" />
         </app-card-content>
@@ -69,18 +69,6 @@ export default {
     id: {
       type: String,
       required: true
-    }
-  },
-
-  data() {
-    return {
-      commentActions: [{
-        icon: 'mode_edit',
-        method: () => this[ASSET_MUTATIONS.EDIT_COMMENT]()
-      }, {
-        icon: 'delete',
-        method: () => this[ASSET_MUTATIONS.DELETE_COMMENT]()
-      }]
     }
   },
 
@@ -127,6 +115,16 @@ export default {
       } else {
         return object.name
       }
+    },
+
+    getActions(assetId, index) {
+      return [{
+        icon: 'mode_edit',
+        method: () => this[ASSET_MUTATIONS.EDIT_COMMENT]({ assetId, index })
+      }, {
+        icon: 'delete',
+        method: () => this[ASSET_MUTATIONS.DELETE_COMMENT]({ assetId, index })
+      }]
     }
   }
 }

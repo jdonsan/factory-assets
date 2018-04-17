@@ -33,7 +33,7 @@ export default new Vuex.Store({
 
   mutations: {
     [ASSET_MUTATIONS.SET_ASSETS](state, assets) {
-      const commentCollection = JSON.parse(localStorage.comments || "{}") 
+      const commentCollection = JSON.parse(localStorage.comments || "{}")
 
       if (!Array.isArray(assets)) {
         Vue.set(assets, 'comments', commentCollection[assets.id] || [])
@@ -57,7 +57,7 @@ export default new Vuex.Store({
 
     [ASSET_MUTATIONS.ADD_COMMENT](state, { assetId, comment }) {
       const commentItem = { date: new Date(), text: comment }
-      const commentCollection = JSON.parse(localStorage.comments  || "{}")
+      const commentCollection = JSON.parse(localStorage.comments || "{}")
 
       if (!commentCollection[assetId]) {
         commentCollection[assetId] = []
@@ -66,6 +66,16 @@ export default new Vuex.Store({
       commentCollection[assetId].push(commentItem)
       localStorage.comments = JSON.stringify(commentCollection)
       state.assetsKeyMap[assetId].comments.push(commentItem)
+    },
+
+    [ASSET_MUTATIONS.DELETE_COMMENT](state, { assetId, index }) {
+      const commentCollection = JSON.parse(localStorage.comments || "{}")
+
+      if (commentCollection[assetId]) {
+        commentCollection[assetId].splice(index, 1)
+        localStorage.comments = JSON.stringify(commentCollection)
+        state.assetsKeyMap[assetId].comments.splice(index, 1)
+      }
     }
   },
 
