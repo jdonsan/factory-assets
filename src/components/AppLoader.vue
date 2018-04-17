@@ -1,43 +1,56 @@
 <template>
   <div class="app-loader">
-    <span></span>
-    <span></span>
-    <span></span>
+    <div v-if="loading" class="app-loader--on">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <slot v-else></slot>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'AppLoader'
+  name: 'AppLoader',
+
+  computed: {
+    ...mapState(['loading'])
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/scss/_colors";
+
 .app-loader {
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
-  position: relative;
-  margin: 0 auto;
-
-  span {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
+  &--on {
+    width: 100px;
+    height: 100px;
     border-radius: 100%;
-    background-color: #3498db;
-    margin: 35px 5px;
+    position: relative;
+    margin: 3rem auto;
 
-    &:nth-child(1) {
-      animation: bounce 1s ease-in-out infinite;
-    }
+    span {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      background-color: $color-primary;
+      margin: 35px 5px;
 
-    &:nth-child(2) {
-      animation: bounce 1s ease-in-out 0.33s infinite;
-    }
+      &:nth-child(1) {
+        animation: bounce 1s ease-in-out infinite;
+      }
 
-    &:nth-child(3) {
-      animation: bounce 1s ease-in-out 0.66s infinite;
+      &:nth-child(2) {
+        animation: bounce 1s ease-in-out 0.33s infinite;
+      }
+
+      &:nth-child(3) {
+        animation: bounce 1s ease-in-out 0.66s infinite;
+      }
     }
   }
 }
