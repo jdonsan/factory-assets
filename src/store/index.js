@@ -76,6 +76,16 @@ export default new Vuex.Store({
         localStorage.comments = JSON.stringify(commentCollection)
         state.assetsKeyMap[assetId].comments.splice(index, 1)
       }
+    }, 
+
+    [ASSET_MUTATIONS.EDIT_COMMENT](state, { assetId, index, text }) {
+      const commentCollection = JSON.parse(localStorage.comments || "{}")
+
+      if (commentCollection[assetId]) {
+        commentCollection[assetId][index].text = text
+        localStorage.comments = JSON.stringify(commentCollection)
+        Vue.set(state.assetsKeyMap[assetId].comments[index], 'text', text)
+      }
     }
   },
 

@@ -26,12 +26,22 @@
             :key="index"
             :description="comment.text" 
             :value="comment.date | date"
-            :actions="getActions(asset.id, index)" 
+            :actions="getActions(asset.id, index, comment.text)" 
           />
           <form-comment @comment="(comment) => addComment({ assetId: asset.id, comment })" />
         </app-card-content>
       </app-card>
 
+      <app-dialog 
+        title="Editar comentarios" 
+        :is-open="openDialog" 
+        :close="() => openDialog = false" 
+        :action="doActionDialog" 
+        action-name="Editar"
+      >
+        <p>Cambie el texto del comentario</p>
+        <input type="text" v-model="comment.text" />
+      </app-dialog>
     </app-loader>
   </div>
 </template>
@@ -48,6 +58,7 @@ import AppCardContent from '@/components/AppCardContent'
 import AppCardVisual from '@/components/AppCardVisual'
 import AppCardItem from '@/components/AppCardItem'
 import AppLineChart from '@/components/AppLineChart'
+import AppDialog from '@/components/AppDialog'
 import FormComment from '@/components/FormComment'
 
 export default {
@@ -62,6 +73,7 @@ export default {
     AppCardVisual,
     AppCardItem,
     AppLineChart,
+    AppDialog,
     FormComment
   },
 
@@ -74,6 +86,17 @@ export default {
 
   created() {
     this[ASSET_ACTIONS.FETCH_ASSETS](this.id)
+  },
+
+  data() {
+    return {
+      openDialog: false,
+      comment: {
+        assetId: null,
+        index: null,
+        text: null
+      }
+    }
   },
 
   watch: {
@@ -117,14 +140,26 @@ export default {
       }
     },
 
-    getActions(assetId, index) {
+    getActions(assetId, index, text) {
       return [{
         icon: 'mode_edit',
-        method: () => this[ASSET_MUTATIONS.EDIT_COMMENT]({ assetId, index })
+        method: () => {
+          this.openDialog = true
+          this.comment = {
+            assetId,
+            index,
+            text
+          }
+        }
       }, {
         icon: 'delete',
         method: () => this[ASSET_MUTATIONS.DELETE_COMMENT]({ assetId, index })
       }]
+    },
+
+    doActionDialog() {
+      this.editComment(this.comment)
+      this.openDialog = false
     }
   }
 }

@@ -8,7 +8,7 @@
       </div>
       <div>
         <span class="app-list-item-notifications" v-if="notifications !== 0">
-          <i class="material-icons">note</i>
+          <i class="material-icons">mode_comment</i>
           <span>{{ notifications }}</span>
         </span>
         <i class="material-icons">keyboard_arrow_right</i>
