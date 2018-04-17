@@ -1,16 +1,13 @@
 <template>
   <div class="view-asset-detail">
     <app-loader>
+
       <app-title>Detalle del activo</app-title>
       <app-card v-if="asset">
         <app-card-header>{{ asset.name }}</app-card-header>
         <app-card-content>
             <app-card-visual title="Precios" >
-              <app-line-chart 
-                v-if="asset.prices"
-                :dataset="asset.prices"
-                :height="400"
-              />
+              <app-line-chart v-if="asset.prices" :dataset="asset.prices" :height="400" />
             </app-card-visual> 
             <app-card-item description="Divisa" :value="asset.currency && asset.currency.name" />
             <app-card-item description="Emisor" :value="asset.issuer && asset.issuer.name" />
@@ -20,13 +17,27 @@
             <app-card-item description="Sector" :value="sectors" />
         </app-card-content>
       </app-card>
+
+      <app-title>Comentarios ({{ asset.comments.length }})</app-title>
+      <app-card v-if="asset">
+        <app-card-content v-if="asset.comments">
+          <app-card-item 
+            v-for="(comment, index) in asset.comments" 
+            :key="index"
+            :description="comment.text" 
+            :value="comment.date | date" 
+          />
+          <form-comment @comment="(comment) => addComment({ assetId: asset.id, comment })" />
+        </app-card-content>
+      </app-card>
     </app-loader>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { ASSET_ACTIONS } from '@/store'
+import { mapActions, mapMutations } from 'vuex'
+import  moment from 'moment'
+import { ASSET_ACTIONS, ASSET_MUTATIONS } from '@/store'
 import AppLoader from '@/components/AppLoader'
 import AppTitle from '@/components/AppTitle'
 import AppCard from '@/components/AppCard'
@@ -35,6 +46,7 @@ import AppCardContent from '@/components/AppCardContent'
 import AppCardVisual from '@/components/AppCardVisual'
 import AppCardItem from '@/components/AppCardItem'
 import AppLineChart from '@/components/AppLineChart'
+import FormComment from '@/components/FormComment'
 
 export default {
   name: 'AssetDetail',
@@ -47,7 +59,8 @@ export default {
     AppCardContent,
     AppCardVisual,
     AppCardItem,
-    AppLineChart
+    AppLineChart,
+    FormComment
   },
 
   props: {
@@ -83,15 +96,23 @@ export default {
     }
   },
 
+  filters: {
+    date(value) {
+      return moment(value).format('DD/MM/YYYY h:mm:ss')
+    }
+  },
+
   methods: {
     ...mapActions([ASSET_ACTIONS.FETCH_ASSETS]),
+
+    ...mapMutations([ASSET_MUTATIONS.ADD_COMMENT]),
+
     formatLevel(object, key, level) {
       if (object[key + level]) {
         return object.name + ' / ' + this.formatLevel(object[key + level], key, level + 1)
       } else {
         return object.name
       }
-
     }
   }
 }

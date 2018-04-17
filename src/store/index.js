@@ -7,13 +7,14 @@ Vue.use(Vuex)
 const URL_RESOURCE = '/symbols'
 
 export const ASSET_ACTIONS = {
-  FETCH_ASSETS: 'fetchAssets'
+  FETCH_ASSETS: 'fetchAssets',
 }
 
 export const ASSET_MUTATIONS = {
   SET_ERROR: 'setError',
   SET_ASSETS: 'setAssets',
-  CHANGE_LOADING: 'changeLoading'
+  CHANGE_LOADING: 'changeLoading',
+  ADD_COMMENT: 'addComment'
 }
 
 export default new Vuex.Store({
@@ -30,10 +31,14 @@ export default new Vuex.Store({
 
   mutations: {
     [ASSET_MUTATIONS.SET_ASSETS](state, assets) {
+      const commentCollection = JSON.parse(localStorage.comments || "{}") 
+
       if (!Array.isArray(assets)) {
+        Vue.set(assets, 'comments', commentCollection[assets.id] || [])
         Vue.set(state.assetsKeyMap, assets.id, assets)
-      } else { 
+      } else {
         state.assetsKeyMap = assets.reduce((keyMap, asset) => {
+          Vue.set(asset, 'comments', commentCollection[asset.id] || [])
           keyMap[asset.id] = asset
           return keyMap
         }, {})
@@ -46,6 +51,19 @@ export default new Vuex.Store({
 
     [ASSET_MUTATIONS.CHANGE_LOADING](state, loading) {
       state.loading = loading
+    },
+
+    [ASSET_MUTATIONS.ADD_COMMENT](state, { assetId, comment }) {
+      const commentItem = { date: new Date(), text: comment }
+      const commentCollection = JSON.parse(localStorage.comments  || "{}")
+
+      if (!commentCollection[assetId]) {
+        commentCollection[assetId] = []
+      }
+
+      commentCollection[assetId].push(commentItem)
+      localStorage.comments = JSON.stringify(commentCollection)
+      state.assetsKeyMap[assetId].comments.push(commentItem)
     }
   },
 

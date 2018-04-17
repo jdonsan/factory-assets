@@ -16,7 +16,7 @@ export default {
     },
 
     value: {
-      type: String|Object,
+      type: String | Object,
       required: true
     }
   }
@@ -24,16 +24,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/scss/_colors';
+@import "../assets/scss/_colors";
+@import "../assets/scss/_breakpoints";
 
 .app-card-item {
-  display: flex;
-  justify-content: space-between;
+  display: block;
   padding: 1rem;
   border-bottom: 1px solid $color-basic-ligth-2;
 
+  @media (min-width: $bp-tablets) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  span {
+    display: block;
+  }
+
   &-value {
-    text-align: right;
+    color: lighten($color-basic-dark, 30%);
+    margin: 0.3rem 0;
   }
 }
 </style>

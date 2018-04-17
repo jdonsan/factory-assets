@@ -14,7 +14,8 @@ export default {
         datasets: [
           {
             label: 'Precios',
-            backgroundColor: '#70C1B3',
+            borderColor: '#70C1B3',
+            fill: false,
             data: this.dataset.map(data => ({
               x: data.date,
               y: data.value
@@ -29,7 +30,6 @@ export default {
     this.renderChart(this.dataCollection, {
       responsive: true,
       maintainAspectRatio: false,
-      showLines: false,
       scales: {
         xAxes: [{
           type: 'time',
@@ -40,11 +40,9 @@ export default {
         }]
       },
       elements: {
-        line: {
-          tension: 5
-        }
+        line: { tension: 0 },
+        point: { radius: 0 }
       },
-      showLines: false,
       animation: {
         duration: 0
       },
