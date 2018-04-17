@@ -10,6 +10,7 @@
           :detail="'Divisa: ' + asset.currency"
           :tag="asset.risk_family"
           :navigation="'assets/' + asset.id"
+          :notifications="asset.comments.length"
         />
       </app-list>
     </app-loader>

@@ -14,6 +14,7 @@ export default {
 @import "../assets/scss/_colors";
 
 .app-header {
+  z-index: 4;
   background: $color-primary;
   color: $color-basic-ligth-1;
   padding: 1rem;

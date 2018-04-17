@@ -6,7 +6,13 @@
         <h3>{{ title }}</h3>
         <p>{{ detail }}</p>
       </div>
-      <i class="material-icons">keyboard_arrow_right</i>
+      <div>
+        <span class="app-list-item-notifications" v-if="notifications !== 0">
+          <i class="material-icons">mode_comment</i>
+          <span>{{ notifications }}</span>
+        </span>
+        <i class="material-icons">keyboard_arrow_right</i>
+      </div>
     </router-link>
   </li>
 </template>
@@ -40,6 +46,11 @@ export default {
     navigation: {
       type: String,
       required: true
+    },
+
+    notifications: {
+      type: Number,
+      required: false
     }
   }
 };
@@ -64,7 +75,7 @@ export default {
     }
   }
 
-  .app-list-item-content {
+  &-content {
     flex: 1;
     min-width: 0;
 
@@ -82,6 +93,27 @@ export default {
 
     p, small {
       color: darken($color-basic-ligth-2, 20%);
+    }
+  }
+
+  &-notifications {
+    display: inline-flex;
+    position: relative;
+    color: $color-basic-ligth-1;
+    background: $color-basic-ligth-2;
+    border-radius: 100%;
+    padding: 0.5rem;
+    align-items: center;
+
+    span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      display: flex;
+      color: $color-primary;
+      justify-content: center;
+      text-align: center;
+      font-weight: bold;
     }
   }
 }
