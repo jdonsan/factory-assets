@@ -43,13 +43,13 @@ export default {
 	name: 'SectionAssetComments',
 
 	components: {
- 	AppTitle,
+ 		AppTitle,
     AppCard,
     AppCardHeader,
     AppCardContent,
     AppCardItem,
     AppDialog,
-    FormComment,
+    FormComment
 	},
 
 	props: {
@@ -89,11 +89,7 @@ export default {
         icon: 'mode_edit',
         method: () => {
           this.openDialog = true
-          this.comment = {
-            assetId,
-            index,
-            text
-          }
+          this.comment = {assetId, index, text }
         }
       }, {
         icon: 'delete',
