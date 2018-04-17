@@ -5,9 +5,11 @@ const myHeaders = new Headers({
 })
 
 export default {
-  async fetchAssets(assetId = '') {
+  async fetchAssets(assetId) {
+    assetId = assetId ? `/${assetId}` : ''
+
     try {
-      const response = await fetch(`${process.env.VUE_APP_URL}/symbols`, { method: 'GET', headers: myHeaders })
+      const response = await fetch(`${process.env.VUE_APP_URL}/symbols${assetId}`, { method: 'GET', headers: myHeaders })
       return await response.json()
     } catch (error) {
       throw error

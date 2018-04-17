@@ -17,7 +17,7 @@ export const ASSET_MUTATIONS = {
 
 export default new Vuex.Store({
   state: {
-    assetsKeyMap: [],
+    assetsKeyMap: {},
     loading: false,
     error: null
   },
@@ -29,6 +29,11 @@ export default new Vuex.Store({
 
   mutations: {
     [ASSET_MUTATIONS.SET_ASSETS](state, assets) {
+      if (!Array.isArray(assets)) {
+        state.assetsKeyMap[assets.id] = assets
+        return true
+      }
+
       state.assetsKeyMap = assets.reduce((keyMap, asset) => {
         keyMap[asset.id] = asset
         return keyMap
