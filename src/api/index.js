@@ -14,5 +14,34 @@ export default {
     } catch (error) {
       throw error
     }
+  },
+
+  fetchComments() {
+    const commentCollection = JSON.parse(localStorage.comments || "{}")
+
+    return {
+      getByAssetId(assetId) {
+         return commentCollection[assetId] || []
+      },
+
+      save(assetId, commentItem) {
+        if (!commentCollection[assetId]) {
+          commentCollection[assetId] = []
+        }
+
+        commentCollection[assetId].push(commentItem)
+        localStorage.comments = JSON.stringify(commentCollection)
+      },
+
+      edit(assetId, index, text) {
+        commentCollection[assetId][index].text = text
+        localStorage.comments = JSON.stringify(commentCollection)
+      },
+
+      delete(assetId, index) {
+        commentCollection[assetId].splice(index, 1)
+        localStorage.comments = JSON.stringify(commentCollection)
+      }
+    }
   }
 }

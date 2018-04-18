@@ -56,14 +56,14 @@ export default new Vuex.Store({
 
   mutations: {
     [ASSET_MUTATIONS.SET_ASSETS](state, assets) {
-      const commentCollection = JSON.parse(localStorage.comments || "{}")
+      const apiComments = api.fetchComments()
 
       if (!Array.isArray(assets)) {
-        Vue.set(assets, 'comments', commentCollection[assets.id] || [])
+        Vue.set(assets, 'comments', apiComments.getByAssetId(assets.id))
         Vue.set(state.assetsKeyMap, assets.id, assets)
       } else {
         state.assetsKeyMap = assets.reduce((keyMap, asset) => {
-          Vue.set(asset, 'comments', commentCollection[asset.id] || [])
+          Vue.set(asset, 'comments', apiComments.getByAssetId(asset.id))
           keyMap[asset.id] = asset
           return keyMap
         }, {})
@@ -80,33 +80,25 @@ export default new Vuex.Store({
 
     [ASSET_MUTATIONS.ADD_COMMENT](state, { assetId, comment }) {
       const commentItem = { date: new Date(), text: comment }
-      const commentCollection = JSON.parse(localStorage.comments || "{}")
 
-      if (!commentCollection[assetId]) {
-        commentCollection[assetId] = []
-      }
-
-      commentCollection[assetId].push(commentItem)
-      localStorage.comments = JSON.stringify(commentCollection)
+      api.fetchComments().save(assetId, commentItem)
       state.assetsKeyMap[assetId].comments.push(commentItem)
     },
 
     [ASSET_MUTATIONS.DELETE_COMMENT](state, { assetId, index }) {
-      const commentCollection = JSON.parse(localStorage.comments || "{}")
+      const comments = api.fetchComments()
 
-      if (commentCollection[assetId]) {
-        commentCollection[assetId].splice(index, 1)
-        localStorage.comments = JSON.stringify(commentCollection)
+      if (comments.getByAssetId(assetId).length !== 0) {
+        comments.delete(assetId, index)
         state.assetsKeyMap[assetId].comments.splice(index, 1)
       }
     },
 
     [ASSET_MUTATIONS.EDIT_COMMENT](state, { assetId, index, text }) {
-      const commentCollection = JSON.parse(localStorage.comments || "{}")
+      const comments = api.fetchComments()
 
-      if (commentCollection[assetId]) {
-        commentCollection[assetId][index].text = text
-        localStorage.comments = JSON.stringify(commentCollection)
+      if (comments.getByAssetId(assetId).length !== 0) {
+        comments.edit(assetId, index, text)
         Vue.set(state.assetsKeyMap[assetId].comments[index], 'text', text)
       }
     }
@@ -123,6 +115,7 @@ export default new Vuex.Store({
         const assets = await api.fetchAssets(assetId)
         commit(ASSET_MUTATIONS.SET_ASSETS, assets)
       } catch (error) {
+        console.error(error)
         commit(ASSET_MUTATIONS.SET_ERROR, 'No ha sido posible obtener los activos')
       } finally {
         commit(ASSET_MUTATIONS.CHANGE_LOADING, false)
