@@ -30,15 +30,28 @@ export default new Vuex.Store({
     assets: (state) => (currency, riskFamily) => {
       let assetList = Object.values(state.assetsKeyMap)
 
-      assetList = currency ? assetList.filter(asset => asset.currency === currency)  : assetList
-      assetList = riskFamily ? assetList.filter(asset => asset.risk_family === riskFamily)  : assetList
+      assetList = currency ? assetList.filter(asset => asset.currency === currency) : assetList
+      assetList = riskFamily ? assetList.filter(asset => asset.risk_family === riskFamily) : assetList
 
       return assetList
     },
 
     assetById: (state) => (id) => state.assetsKeyMap[id],
-    currencies: (state, getters) => [...new Set(getters.assets(null, null).map(asset => asset.currency))],
-    riskFamilies: (state, getters) => [...new Set(getters.assets(null, null).map(asset => asset.risk_family))]
+
+    assetPrev: (state, getters) => (id) => {
+      const assets = getters.assets()
+      let index = assets.findIndex(asset => asset.id === id) - 1
+      return (index === -1) ? null : assets[index].id
+    },
+
+    assetNext: (state, getters) => (id) => {
+      const assets = getters.assets()
+      let index = assets.findIndex(asset => asset.id === id) + 1
+      return (index === assets.length) ? null : assets[index].id
+    },
+
+    currencies: (state, getters) => [...new Set(getters.assets().map(asset => asset.currency))],
+    riskFamilies: (state, getters) => [...new Set(getters.assets().map(asset => asset.risk_family))]
   },
 
   mutations: {
@@ -100,8 +113,12 @@ export default new Vuex.Store({
   },
 
   actions: {
-    async [ASSET_ACTIONS.FETCH_ASSETS]({ commit }, assetId) {
+    async [ASSET_ACTIONS.FETCH_ASSETS]({ commit, state }, assetId) {
       try {
+        if (assetId && state.assetsKeyMap[assetId] && state.assetsKeyMap[assetId].isin) {
+          return true;
+        }
+
         commit(ASSET_MUTATIONS.CHANGE_LOADING, true)
         const assets = await api.fetchAssets(assetId)
         commit(ASSET_MUTATIONS.SET_ASSETS, assets)

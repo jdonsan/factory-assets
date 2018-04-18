@@ -1,17 +1,25 @@
 <template>
-  <div class="app-toolbar">
+  <div :class="['app-toolbar', { 'app-toolbar--expand': expand }]">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AppToolbar'
+  name: 'AppToolbar',
+
+  props: {
+    expand: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/scss/_colors';
+@import "../assets/scss/_colors";
 
 .app-toolbar {
   display: flex;
@@ -22,7 +30,7 @@ export default {
 
   select {
     background: $color-basic-ligth-1;
-    
+
     &:first-child {
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
@@ -32,6 +40,10 @@ export default {
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
     }
+  }
+
+  &--expand {
+    justify-content: space-between;
   }
 }
 </style>

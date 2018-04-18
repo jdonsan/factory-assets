@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { ASSET_ACTIONS } from '@/store'
 import AppLoader from '@/components/AppLoader'
 import SectionAsset from '@/components/SectionAsset'
@@ -30,8 +30,12 @@ export default {
     }
   },
 
-  created() {
-    this[ASSET_ACTIONS.FETCH_ASSETS](this.id)
+  async created() {
+    if (this.assets().length === 0) {
+      await this[ASSET_ACTIONS.FETCH_ASSETS]()
+    }
+
+    await this[ASSET_ACTIONS.FETCH_ASSETS](this.id)
   },
 
   watch: {
@@ -39,6 +43,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['assets']),
+
     asset() {
       return this.$store.getters.assetById(this.id)
     }
