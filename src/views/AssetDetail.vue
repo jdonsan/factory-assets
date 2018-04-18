@@ -1,7 +1,7 @@
 <template>
   <div class="view-asset-detail">
     <app-loader>
-      <section-asset v-if="asset" :asset="asset" />
+      <section-asset v-if="asset && asset.issuer" :asset="asset" />
       <section-asset-comments v-if="asset" :asset-id="asset.id" :comments="asset.comments" />
     </app-loader>
   </div>
