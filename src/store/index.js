@@ -27,8 +27,18 @@ export default new Vuex.Store({
   },
 
   getters: {
-    assets: (state) => Object.values(state.assetsKeyMap),
-    assetById: (state) => (id) => state.assetsKeyMap[id]
+    assets: (state) => (currency, riskFamily) => {
+      let assetList = Object.values(state.assetsKeyMap)
+
+      assetList = currency ? assetList.filter(asset => asset.currency === currency)  : assetList
+      assetList = riskFamily ? assetList.filter(asset => asset.risk_family === riskFamily)  : assetList
+
+      return assetList
+    },
+
+    assetById: (state) => (id) => state.assetsKeyMap[id],
+    currencies: (state, getters) => [...new Set(getters.assets(null, null).map(asset => asset.currency))],
+    riskFamilies: (state, getters) => [...new Set(getters.assets(null, null).map(asset => asset.risk_family))]
   },
 
   mutations: {
@@ -76,7 +86,7 @@ export default new Vuex.Store({
         localStorage.comments = JSON.stringify(commentCollection)
         state.assetsKeyMap[assetId].comments.splice(index, 1)
       }
-    }, 
+    },
 
     [ASSET_MUTATIONS.EDIT_COMMENT](state, { assetId, index, text }) {
       const commentCollection = JSON.parse(localStorage.comments || "{}")
