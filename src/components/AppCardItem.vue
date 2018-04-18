@@ -2,7 +2,7 @@
   <div class="app-card-item">
     <span class="app-card-item-key">{{ description }}</span>
     <div class="app-card-item-detail">
-      <span class="app-card-item-value">{{ value }}</span>
+      <span class="app-card-item-value">{{ value | empty }}</span>
       <ul class="app-card-item-actions" v-if="actions">
         <li v-for="(action, index) in actions" :key="index" @click="action.method">
           <i class="material-icons">{{ action.icon }}</i>
@@ -30,6 +30,12 @@ export default {
     actions: {
       type: Array,
       required: false
+    }
+  },
+
+  filters: {
+    empty(value) {
+      return value || '--'
     }
   }
 }

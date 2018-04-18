@@ -12,7 +12,7 @@
 					<app-card-item description="ISIN" :value="asset.isin" />
 					<app-card-item description="Región" :value="formatLevel(asset.region, 'region_level', 2)" />
 					<app-card-item description="Familia de riesgo" :value="formatLevel(asset.risk_family, 'sub_family', '')" />
-					<app-card-item description="Sector" :value="formatLevel(asset.sector, 'sector_level', 2)" />
+					<app-card-item description="Sector" :value="asset.sector && formatLevel(asset.sector, 'sector_level', 2)" />
 			</app-card-content>
 		</app-card>
   </section>
