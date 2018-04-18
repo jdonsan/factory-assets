@@ -40,31 +40,31 @@ import AppDialog from '@/components/AppDialog'
 import FormComment from '@/components/FormComment'
 
 export default {
-	name: 'SectionAssetComments',
+  name: 'SectionAssetComments',
 
-	components: {
- 		AppTitle,
+  components: {
+    AppTitle,
     AppCard,
     AppCardHeader,
     AppCardContent,
     AppCardItem,
     AppDialog,
     FormComment
-	},
+  },
 
-	props: {
-		assetId: {
-			type: Number,
-			required: true
-		},
+  props: {
+    assetId: {
+      type: Number,
+      required: true
+    },
 
-		comments: {
-			type: Array,
-			required: true
-		}
-	},
+    comments: {
+      type: Array,
+      required: true
+    }
+  },
 
-	data() {
+  data() {
     return {
       openDialog: false,
       comment: {
@@ -73,23 +73,23 @@ export default {
         text: null
       }
     }
-	},
-	
-	filters: {
+  },
+
+  filters: {
     date(value) {
       return moment(value).format('DD/MM/YYYY h:mm:ss')
     }
-	},
-	
-	methods: {
-		...mapMutations([ASSET_MUTATIONS.ADD_COMMENT, ASSET_MUTATIONS.DELETE_COMMENT, ASSET_MUTATIONS.EDIT_COMMENT]),
+  },
+
+  methods: {
+    ...mapMutations([ASSET_MUTATIONS.ADD_COMMENT, ASSET_MUTATIONS.DELETE_COMMENT, ASSET_MUTATIONS.EDIT_COMMENT]),
 
     getActions(assetId, index, text) {
       return [{
         icon: 'mode_edit',
         method: () => {
           this.openDialog = true
-          this.comment = {assetId, index, text }
+          this.comment = { assetId, index, text }
         }
       }, {
         icon: 'delete',
@@ -101,6 +101,6 @@ export default {
       this.editComment(this.comment)
       this.openDialog = false
     }
-	}
+  }
 }
 </script>
