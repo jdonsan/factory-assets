@@ -36,89 +36,89 @@ import AppCardItem from '@/components/AppCardItem'
 import AppLineChart from '@/components/AppLineChart'
 
 export default {
-	name: 'SectionAsset',
+  name: 'SectionAsset',
 
-	components: {
-		AppTitle,
-		AppToolbar,
-		AppNavigation,
-		AppCard,
-		AppCardHeader,
-		AppCardContent,
-		AppCardVisual,
-		AppCardItem,
-		AppLineChart
-	},
+  components: {
+    AppTitle,
+    AppToolbar,
+    AppNavigation,
+    AppCard,
+    AppCardHeader,
+    AppCardContent,
+    AppCardVisual,
+    AppCardItem,
+    AppLineChart
+  },
 
-	props: {
-		asset: {
-			type: Object,
-			required: true
-		}
-	},
+  props: {
+    asset: {
+      type: Object,
+      required: true
+    }
+  },
 
-	computed: {
-		dataCollection() {
-			return {
-				datasets: [
-					{
-						label: 'Precios',
-						borderColor: '#70C1B3',
-						fill: false,
-						data: this.asset.prices.map(data => ({
-							x: data.date,
-							y: data.value
-						}))
-					}
-				]
-			}
-		},
+  computed: {
+    dataCollection() {
+      return {
+        datasets: [
+          {
+            label: 'Precios',
+            borderColor: '#70C1B3',
+            fill: false,
+            data: this.asset.prices.map(data => ({
+              x: data.date,
+              y: data.value
+            }))
+          }
+        ]
+      }
+    },
 
-		options() {
-			return {
-				responsive: true,
-				maintainAspectRatio: false,
-				scales: {
-					xAxes: [{
-						type: 'time',
-						time: {
-							max: this.asset.prices[this.asset.prices.length - 1].date,
-							min: this.asset.prices[0].date
-						}
-					}]
-				},
-				elements: {
-					line: { tension: 0 },
-					point: { radius: 0 }
-				},
-				animation: {
-					duration: 0
-				},
-				hover: {
-					animationDuration: 0
-				},
-				responsiveAnimationDuration: 0
-			}
-		},
+    options() {
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              max: this.asset.prices[this.asset.prices.length - 1].date,
+              min: this.asset.prices[0].date
+            }
+          }]
+        },
+        elements: {
+          line: { tension: 0 },
+          point: { radius: 0 }
+        },
+        animation: {
+          duration: 0
+        },
+        hover: {
+          animationDuration: 0
+        },
+        responsiveAnimationDuration: 0
+      }
+    },
 
-		assetPrev() {
-			return this.$store.getters.assetPrev(this.asset.id)
-		},
+    assetPrev() {
+      return this.$store.getters.assetPrev(this.asset.id)
+    },
 
-		assetNext() {
-			return this.$store.getters.assetNext(this.asset.id)
-		}
-	},
+    assetNext() {
+      return this.$store.getters.assetNext(this.asset.id)
+    }
+  },
 
-	methods: {
-		formatLevel(object, key, level) {
-			if (object[key + level]) {
-				return object.name + ' / ' + this.formatLevel(object[key + level], key, level + 1)
-			} else {
-				return object.name
-			}
-		},
-	}
+  methods: {
+    formatLevel(object, key, level) {
+      if (object[key + level]) {
+        return object.name + ' / ' + this.formatLevel(object[key + level], key, level + 1)
+      } else {
+        return object.name
+      }
+    },
+  }
 }
 </script>
 
