@@ -1,26 +1,27 @@
 <template>
   <section class="section-asset">
-		<app-title>Detalle del activo</app-title>
+    <app-title>Detalle del activo</app-title>
 
-		<app-toolbar :expand="true">
+    <app-toolbar :expand="true">
       <app-navigation :show="!!assetPrev" mode="prev" :to="'/assets/' + assetPrev" label="Activo anterior" />
       <app-navigation :show="!!assetNext" mode="next" :to="'/assets/' + assetNext" label="Activo siguiente" />
     </app-toolbar>
-			
-		<app-card>
-			<app-card-header>{{ asset.name }}</app-card-header>
-			<app-card-content>
-					<app-card-visual title="Precios" >
-						<app-line-chart v-if="asset.prices" :options="options" :height="400" :chart-data="dataCollection" />
-					</app-card-visual> 
-					<app-card-item description="Divisa" :value="asset.currency.name" />
-					<app-card-item description="Emisor" :value="asset.issuer.name" />
-					<app-card-item description="ISIN" :value="asset.isin" />
-					<app-card-item description="Región" :value="formatLevel(asset.region, 'region_level', 2)" />
-					<app-card-item description="Familia de riesgo" :value="formatLevel(asset.risk_family, 'sub_family', '')" />
-					<app-card-item description="Sector" :value="asset.sector && formatLevel(asset.sector, 'sector_level', 2)" />
-			</app-card-content>
-		</app-card>
+      
+    <app-card>
+      <app-card-header>{{ asset.name }}</app-card-header>
+      <app-card-content>
+          <app-card-visual title="Precios" >
+            <app-line-chart v-if="asset.prices" :options="options" :height="400" :chart-data="dataCollection" />
+          </app-card-visual> 
+
+          <app-card-item description="Divisa" :value="asset.currency.name" />
+          <app-card-item description="Emisor" :value="asset.issuer.name" />
+          <app-card-item description="ISIN" :value="asset.isin" />
+          <app-card-item description="Región" :value="formatLevel(asset.region, 'region_level', 2)" />
+          <app-card-item description="Familia de riesgo" :value="formatLevel(asset.risk_family, 'sub_family', '')" />
+          <app-card-item description="Sector" :value="asset.sector && formatLevel(asset.sector, 'sector_level', 2)" />
+      </app-card-content>
+    </app-card>
   </section>
 </template>
 
