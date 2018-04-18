@@ -34,6 +34,7 @@ export default {
     &:first-child {
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
+      border-right: 0px
     }
 
     &:last-child {
